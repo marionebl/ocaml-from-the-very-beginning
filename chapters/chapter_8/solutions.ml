@@ -41,3 +41,47 @@ let rec replace k v = function
   | (k', _)::t when k == k' -> (k, v) :: t
   | (k', v')::t when k <> k' -> (k', v') :: replace k v t
   | _ -> failwith "unreachable"
+
+(* 3. Write a function to build a dictionary from two equal length lists,
+  one containing keys and another containing values. Raise the exception
+  Invalid_argument if the lists are not of equal length *)
+let rec build ks vs =
+  if List.length ks <> List.length vs then
+    raise (Invalid_argument "list lengths are not equal")
+  else
+    match (ks, vs) with
+    | ([], []) -> []
+    | (k::kt, v::vt) -> (k, v) :: build kt vt
+    | _ -> failwith "unreachable"
+
+(* 4. Now write the inverse function: given a dictionary, return the pair of two lists -
+   the first containing all the keys, the second containing all the values. *)
+let partition d = 
+  let rec partition' ks vs = function
+  | [] -> (ks, vs)
+  | (k, v)::t -> partition' (k :: ks) (v :: vs) t
+  in
+  partition' [] [] (List.rev d)
+
+(* 5. Define a function to turn any list of pairs into a dictionary. If duplicate keys are found,
+   the value associated with the first occurrence of the key should be kept *)
+let dict ps =
+  let rec dict' ps d =
+    match ps with
+    | [] -> d
+    | (k, _)::t when exists k d -> dict' t d
+    | (k, v)::t -> dict' t ((k, v) :: d)
+  in
+  dict' ps [] |> List.rev
+
+(* 6. Write the function union a b which forms the union of two dictionaries. The union of two dictionaries
+   is the dictionary containing all the entries in one or the other or both. In the case that a key is contained
+   in both dictionaries, the value in the first should be preferred *)
+let union a b =
+  let rec union' a b =
+    match b with
+    | [] -> a
+    | (k, _)::t when exists k a -> union' a t
+    | (k, v)::t -> union' ((k, v) :: a) t
+  in
+  union' a b |> List.rev

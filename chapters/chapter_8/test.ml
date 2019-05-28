@@ -1,6 +1,9 @@
 open OUnit2
 open Solutions
 
+let print_tuple (a, b) ~item = Printf.sprintf "( %s, %s )" (item a) (item b)
+let print_list a ~item = Printf.sprintf "[ %s ]" ((List.map item a) |> String.concat "; ")
+
 let tests =
   [
     "first (1, 2)">::
@@ -55,6 +58,24 @@ let tests =
     (fun _ -> assert_equal (Error "Not found") (try Ok (replace 2 3 []) with Not_found -> Error "Not found"));
     "replace 2 4 [(1, 2); (2, 3)]">::
     (fun _ -> assert_equal (Ok [(1, 2); (2, 4)]) (try Ok (replace 2 4 [(1, 2); (2, 3)]) with Not_found -> Error "Not found"));
+    "partition []">::
+    (fun _ -> assert_equal ([], []) (partition []));
+    "partition [(1, 2)]">::
+    (fun _ -> assert_equal ([1], [2]) (partition [(1, 2)]));
+    "partition [(1, 2); (3, 4)]">::
+    (fun _ -> assert_equal ([1; 3], [2; 4]) (partition [(1, 2); (3, 4)]) ~printer:(print_tuple ~item:(print_list ~item:string_of_int)));
+    "dict []">::
+    (fun _ -> assert_equal [] (dict []));
+    "dict [(1, 2)]">::
+    (fun _ -> assert_equal [(1, 2)] (dict [(1, 2)]));
+    "dict [(1, 2); (3, 4); (1, 5)]">::
+    (fun _ -> assert_equal [(1, 2); (3, 4)] (dict [(1, 2); (3, 4); (1, 5)]) ~printer:(print_list ~item:(print_tuple ~item:string_of_int)));
+    "union [] []">::
+    (fun _ -> assert_equal [] (union [] []));
+    "union [(1, 2)] [(3, 4)]">::
+    (fun _ -> assert_equal [(1, 2); (3, 4)] (union [(1, 2)] [(3, 4)]) ~printer:(print_list ~item:(print_tuple ~item:string_of_int)));
+    "union [(1, 2)] [(3, 4); (1, 5)]">::
+    (fun _ -> assert_equal [(1, 2); (3, 4)] (union [(1, 2)] [(3, 4); (1, 5)]) ~printer:(print_list ~item:(print_tuple ~item:string_of_int)));
   ]
 
 let () =
