@@ -5,10 +5,17 @@ services:
     image: brainpower/ocaml-from-the-very-beginning-dev
     ports:
       - "8443:8443"
+    environment:
+      GIT_DISCOVERY_ACROSS_FILESYSTEM: 1
+      SSH_AUTH_SOCK: $SSH_AUTH_SOCK
     volumes:
       - "./.git:/repo/.git"
       - "./chapters:/repo/chapters"
       - "./.gitignore:/repo/.gitignore"
       - "./dune-project:/repo/dune-project"
       - "./README.md:/repo/README.md"
-    command: code-server --allow-http --no-auth /repo
+      - "./docker-compose.yml:/repo/docker-compose.yml"
+      - "./Dockerfile:/repo/Dockerfile"
+      - "$SSH_AUTH_SOCK:$SSH_AUTH_SOCK"
+    working_dir: /repo
+    command: code-server --allow-http --no-auth
