@@ -1,0 +1,15 @@
+(executable
+ (name test)
+ (libraries core_kernel oUnit))
+
+(alias
+ (name runtest)
+ (deps
+  (:< test.exe))
+ (action
+  (run %{<})))
+
+; https://github.com/ocaml/dune/pull/1484
+(env
+  (dev
+    (flags (:standard -warn-error -A))))
