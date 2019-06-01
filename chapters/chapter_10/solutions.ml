@@ -60,4 +60,40 @@ module Seq = struct
 end
 
 (* 6. Extend the expr type and the evaluate function to allow raising a number to a power *)
+type expr =
+  | Num of int
+  | Add of expr * expr
+  | Subtract of expr * expr
+  | Multliply of expr * expr
+  | Divide of expr * expr
+  | Raise of expr * expr
+
+let rec pow a = function
+  | 0 -> 1
+  | 1 -> a
+  | n -> 
+    let b = pow a (n / 2) in
+    b * b * (if n mod 2 = 0 then 1 else a)
+
+let rec ev = function
+  | Num _ -> fun x _ -> x
+  | Add _ -> (+)
+  | Subtract _ -> (-)
+  | Multliply _ -> fun x y -> x * y
+  | Divide _ -> (/)
+  | Raise _ -> pow
+
+let rec evaluate exp = 
+  match exp with
+  | Num n -> (ev exp) n 0
+  | Add(x, y) 
+  | Subtract(x, y) 
+  | Multliply(x, y) 
+  | Divide(x, y) 
+  | Raise(x, y) -> (ev exp) (evaluate x) (evaluate y)
+  
 (* 7. Use the option type to deal with the problem that Division_by_zero may be raised from the evaluate function *)
+let rec evaluate_opt exp =
+  try Ok (evaluate exp) with
+  | Division_by_zero -> Error "Division By Zero"
+  | exn -> raise exn
