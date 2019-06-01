@@ -1,0 +1,10 @@
+(library
+  (name solutions)
+  (inline_tests)
+  (preprocess (pps ppx_inline_test))
+  (libraries core_kernel oUnit))
+
+; https://github.com/ocaml/dune/pull/1484
+(env
+  (dev
+    (flags (:standard -warn-error -A))))

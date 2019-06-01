@@ -6,4 +6,4 @@ homepage: "https://github.com/brainpower-org/ocaml-from-the-very-beginning"
 bug-reports: "https://github.com/brainpower-org/ocaml-from-the-very-beginning/issues"
 version: "0.1"
 synopsis: "Work on OCaml from the very Beginning exercises in a turn-key environment"
-depends: [ "ocaml" "ocamlfind" "dune" "ounit" "core" "merlin" "ocp-indent" "utop" ]
+depends: [ "ocaml" "ocamlfind" "dune" "ounit" "core" "merlin" "ocp-indent" "utop" "ppx_inline_test" ]
