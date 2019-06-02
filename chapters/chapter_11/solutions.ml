@@ -171,3 +171,14 @@ module BinarySearchTree = struct
      keys, prefer the value from the first dictionary *)
   let combine a b = to_list a @ (to_list b) |> of_list
 end
+
+(* 6. Can you define a type for trees which, instead of branching exactly two ways each time, can branch
+   zero or more ways, possibly different at each branch? Write simple functions like size, total and
+   map using your new type of tree.  *)
+module NTree = struct
+  type tree = Br of int * tree list
+
+  let rec size (Br (_, l)) = 1 + (l |> List.map (size) |> List.fold_left (+) 0)
+  let rec total (Br (e, l)) = e + (l |> List.map (total) |> List.fold_left (+) 0)
+  let rec map f (Br (e, l)) = Br (f e, List.map (map f) l)
+end
