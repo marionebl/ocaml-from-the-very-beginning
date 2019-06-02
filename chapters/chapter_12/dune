@@ -3,6 +3,11 @@
  (modules read)
  (libraries core_kernel))
 
+(executable
+ (name readfile)
+ (modules readfile)
+ (libraries core_kernel str))
+
 (library
  (name solutions)
  (modules solutions)
@@ -15,6 +20,13 @@
  (name read)
  (deps
   (:< read.exe))
+ (action
+  (run %{<})))
+
+(alias
+ (name readfile)
+ (deps
+  (:< readfile.exe))
  (action
   (run %{<})))
 
