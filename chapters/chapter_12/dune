@@ -4,11 +4,12 @@
  (libraries core_kernel))
 
 (library
-  (name solutions)
-  (modules solutions)
-  (inline_tests)
-  (preprocess (pps ppx_inline_test))
-  (libraries core_kernel oUnit))
+ (name solutions)
+ (modules solutions)
+ (inline_tests)
+ (preprocess
+  (pps ppx_inline_test))
+ (libraries core_kernel oUnit))
 
 (alias
  (name read)
@@ -18,6 +19,8 @@
   (run %{<})))
 
 ; https://github.com/ocaml/dune/pull/1484
+
 (env
-  (dev
-    (flags (:standard -warn-error -A))))
+ (dev
+  (flags
+   (:standard -warn-error -A))))
