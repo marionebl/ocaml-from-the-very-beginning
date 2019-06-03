@@ -8,13 +8,10 @@
  (modules readfile)
  (libraries core_kernel str))
 
-(library
+(executable
  (name solutions)
  (modules solutions)
- (inline_tests)
- (preprocess
-  (pps ppx_inline_test))
- (libraries core_kernel oUnit))
+ (libraries core_kernel))
 
 (alias
  (name read)
@@ -29,6 +26,11 @@
   (:< readfile.exe))
  (action
   (run %{<})))
+
+(alias
+ (name solutions)
+ (deps
+  (:< solutions.exe)))
 
 ; https://github.com/ocaml/dune/pull/1484
 
