@@ -1,0 +1,15 @@
+(executable
+ (name solutions)
+ (libraries core_kernel))
+
+(alias
+ (name runtest)
+ (deps
+  (:< solutions.exe))
+ (action
+  (run %{<})))
+
+; https://github.com/ocaml/dune/pull/1484
+(env
+  (dev
+    (flags (:standard -warn-error -A))))
