@@ -1,0 +1,10 @@
+*.out
+*.cmi
+*.cmo
+*.cmx
+*.o
+/stats
+/reverse
+/fibonacci-bc
+/fibonacci
+/match
